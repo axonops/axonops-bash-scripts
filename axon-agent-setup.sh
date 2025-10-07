@@ -88,12 +88,14 @@ else
   exit 1
 fi
 
-# Check java version that is installed 
+# Check java version that is installed
 cassandra_comparison_version="$(cut -d '.' -f 1 <<< $cassandra_version)"
 if [[ $java_version -eq 8 ]] && [[ $cassandra_comparison_version -eq 4 ]]; then
   axon_install_agent="axon-cassandra$cassandra_version-agent-jdk8"
 elif [[ $java_version -eq 11 ]] && [[ $cassandra_comparison_version -eq 5 ]]; then
   axon_install_agent="axon-cassandra$cassandra_version-agent-jdk11"
+elif [[ $java_version -eq 17 ]] && [[ $cassandra_comparison_version -eq 5 ]]; then
+  axon_install_agent="axon-cassandra$cassandra_version-agent-jdk17"
 else
   axon_install_agent="axon-cassandra$cassandra_version-agent"
 fi
@@ -143,7 +145,7 @@ http_endpoint_reachable=$(tail -n1 <<< "$response")
 if (echo "$http_endpoint_reachable" | grep -q -i "axonops agent test page"); then
   echo "AxonOps Agent URL is reachable" 
 else
-  echo "agents.axonops.cloud is unreachable please refer to the AxonOps docs at https://docs.axonops.com/get_started/agent_setup"
+  echo "agents.axonops.cloud is unreachable please refer to the AxonOps docs at https://axonops.com/docs/installation/"
   exit 1
 fi
 
